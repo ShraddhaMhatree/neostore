@@ -26,6 +26,7 @@ MaterialColor colorCustom = MaterialColor(0xFFFE3F3F, color);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: 'Lato',
         primarySwatch: colorCustom,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
