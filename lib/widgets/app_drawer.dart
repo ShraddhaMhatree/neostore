@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neostore/helpers/SizeConfig.dart';
+import 'package:neostore/screens/products_list.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -104,8 +105,8 @@ class SideNavMenuList extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             onTap: () {
-              // Navigator.of(context)
-              //     .pushReplacementNamed(OrdersScreen.routeName);
+              Navigator.of(context).popAndPushNamed(ProductsList.route,
+                  arguments: {'category_id': 1, 'category_name': 'Tables'});
             },
           ),
           Divider(color: Colors.black87),
@@ -119,14 +120,14 @@ class SideNavMenuList extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             onTap: () {
-              // Navigator.of(context)
-              // .pushReplacementNamed(UserProductsScreen.routeName);
+              Navigator.of(context).popAndPushNamed(ProductsList.route,
+                  arguments: {'category_id': 2, 'category_name': 'Sofas'});
             },
           ),
           Divider(color: Colors.black87),
           ListTile(
             leading: Icon(
-              Icons.exit_to_app,
+              Icons.event_seat,
               color: Colors.white,
             ),
             title: Text(
@@ -134,33 +135,27 @@ class SideNavMenuList extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed('/');
-
-              // Navigator.of(context)
-              //     .pushReplacementNamed(UserProductsScreen.routeName);
-              // Provider.of<Auth>(context, listen: false).logout();
+              Navigator.of(context).popAndPushNamed(ProductsList.route,
+                  arguments: {'category_id': 3, 'category_name': 'Chairs'});
             },
           ),
           Divider(color: Colors.black87),
           ListTile(
-            leading: Icon(
-              Icons.exit_to_app,
-              color: Colors.white,
-            ),
-            title: Text(
-              'Cupboards',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed('/');
-
-              // Navigator.of(context)
-              //     .pushReplacementNamed(UserProductsScreen.routeName);
-              // Provider.of<Auth>(context, listen: false).logout();
-            },
-          ),
+              leading: Icon(
+                Icons.kitchen,
+                color: Colors.white,
+              ),
+              title: Text(
+                'Cupboards',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              onTap: () {
+                Navigator.of(context).popAndPushNamed(ProductsList.route,
+                    arguments: {
+                      'category_id': 4,
+                      'category_name': 'Cupboards'
+                    });
+              }),
           Divider(color: Colors.black87),
           ListTile(
             leading: Icon(
@@ -172,18 +167,13 @@ class SideNavMenuList extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed('/');
-
-              // Navigator.of(context)
-              //     .pushReplacementNamed(UserProductsScreen.routeName);
-              // Provider.of<Auth>(context, listen: false).logout();
+              Navigator.of(context).popAndPushNamed('/');
             },
           ),
           Divider(color: Colors.black87),
           ListTile(
             leading: Icon(
-              Icons.location_city,
+              Icons.add_location,
               color: Colors.white,
             ),
             title: Text(
@@ -191,18 +181,13 @@ class SideNavMenuList extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed('/');
-
-              // Navigator.of(context)
-              //     .pushReplacementNamed(UserProductsScreen.routeName);
-              // Provider.of<Auth>(context, listen: false).logout();
+              Navigator.of(context).popAndPushNamed('/');
             },
           ),
           Divider(color: Colors.black87),
           ListTile(
             leading: Icon(
-              Icons.note,
+              Icons.note_add,
               color: Colors.white,
             ),
             title: Text(
@@ -210,12 +195,7 @@ class SideNavMenuList extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed('/');
-
-              // Navigator.of(context)
-              //     .pushReplacementNamed(UserProductsScreen.routeName);
-              // Provider.of<Auth>(context, listen: false).logout();
+              Navigator.of(context).popAndPushNamed('/');
             },
           ),
           Divider(color: Colors.black87),
@@ -229,12 +209,7 @@ class SideNavMenuList extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).pushReplacementNamed('/');
-
-              // Navigator.of(context)
-              //     .pushReplacementNamed(UserProductsScreen.routeName);
-              // Provider.of<Auth>(context, listen: false).logout();
+              Navigator.of(context).popAndPushNamed('/');
             },
           ),
         ],

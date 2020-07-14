@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:neostore/helpers/SizeConfig.dart';
 import 'package:neostore/providers/product.dart';
 import 'package:neostore/providers/product_provider.dart';
+import 'package:neostore/screens/product_description_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProductsList extends StatelessWidget {
@@ -36,49 +37,23 @@ class ProductsList extends StatelessWidget {
       ),
       body: SafeArea(
         child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15 , vertical: 10),
             separatorBuilder: (BuildContext context, int index) => Divider(
                   height: 1,
                   color: Colors.grey.shade800,
                 ),
             itemCount: productsList.length,
-            itemBuilder: (ctx, i) => _productItem(productsList, i, context)
-            //  Container(
-            //       height: SizeConfig.safeBlockVertical * 20,
-            //       width: SizeConfig.safeBlockHorizontal * 100,
-            //       child: Row(
-            //         children: <Widget>[
-            //           Image.network(productsList[i].productImages,
-            //                height: SizeConfig.safeBlockVertical * 20,
-            //                width: SizeConfig.safeBlockVertical * 20,),
-            //                Expanded(
-            //                  child: Column(
-            //                    mainAxisAlignment: MainAxisAlignment.center,
-            //                    crossAxisAlignment: CrossAxisAlignment.start,
-            //                    children: <Widget>[
-            //                      Text(productsList[i].name),
-            //                      Text(productsList[i].producer),
-            //                      Row(
-            //                        children: <Widget>[
-            //                         Text(productsList[i].producer),
-
-            //                        ],
-            //                      )
-            //                    ],
-            //                  ),
-            //                )
-            //         ],
-            //       ),
-            //     )
+            itemBuilder: (ctx, i) => _productItem(productsList, i, context, productCategoryName)
             ),
       ),
     );
   }
 
-  Widget _productItem(List<Product> data, int index, BuildContext context) {
+  Widget _productItem(List<Product> data, int index, BuildContext context, String categoryName) {
     return InkWell(
       onTap: () {
-        // Navigator.pushNamed(context, '/ItemDescriptionPage', arguments: data[index]);
+       Navigator.of(context).pushNamed(ProductDescription.route,
+        arguments: {'product_id': data[index].id, 'category_name': categoryName});
       },
       child: Container(
         child: Row(
@@ -88,6 +63,7 @@ class ProductsList extends StatelessWidget {
               width: SizeConfig.safeBlockVertical * 15,
               height: SizeConfig.safeBlockVertical * 15,
               margin: EdgeInsets.all(5),
+               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Image(
                 image: NetworkImage(data[index].productImages),
                 fit: BoxFit.cover,
@@ -112,29 +88,31 @@ class ProductsList extends StatelessWidget {
                         overflow: TextOverflow.ellipsis),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 20, left: 8, right: 8),
+                    margin: EdgeInsets.only(top: 18, left: 8, right: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Expanded(
-                          child: Text('RS. ${data[index].cost}',
+                          child: Text('Rs. ${data[index].cost}',
                               style: TextStyle(
-                                  fontSize: 22, color: Colors.red[600]),
+                                  fontSize: 24, color: Colors.red),
                               softWrap: true,
                               overflow: TextOverflow.ellipsis),
                         ),
                         RatingBar(
                           initialRating: data[index].rating.toDouble(),
+                          itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
                           direction: Axis.horizontal,
                           itemCount: 5,
-                          itemSize: 18,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 1.0),
+                          itemSize: 16,
                           itemBuilder: (context, _) => Icon(
                             Icons.star,
                             color: Colors.amber,
                           ),
+                          unratedColor: Colors.grey.shade500,
                           onRatingUpdate: (rating) {
                             print(rating);
+
                           },
                         ),
                       ],

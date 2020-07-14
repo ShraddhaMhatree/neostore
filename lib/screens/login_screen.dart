@@ -257,9 +257,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _saveForm() {
     final isValid = _formKey.currentState.validate();
-    if (!isValid) {
-      return;
-    }
+    // if (!isValid) {
+    //   return;
+    // }
     _formKey.currentState.save();
     setState(() {
       _isLoading = true;

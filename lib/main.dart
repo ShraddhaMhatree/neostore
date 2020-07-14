@@ -3,6 +3,7 @@ import 'package:neostore/providers/auth_provider.dart';
 import 'package:neostore/providers/product_provider.dart';
 import 'package:neostore/screens/home_screen.dart';
 import 'package:neostore/screens/login_screen.dart';
+import 'package:neostore/screens/product_description_screen.dart';
 import 'package:neostore/screens/products_list.dart';
 import 'package:neostore/screens/registration_screen.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.route: (ctx) => HomeScreen(),
           RegistrationScreen.route: (ctx) => RegistrationScreen(),
           ProductsList.route: (ctx) => ProductsList(),
+          ProductDescription.route : (ctx) => ProductDescription()
         },
       ),
     );

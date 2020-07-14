@@ -121,9 +121,15 @@ class ProductsProvider with ChangeNotifier{
   }
 
   List<Product> getProductsByCategory(int categoryId){
-    return items.where((item) => 
+    return _items.where((item) => 
        item.productCategoryId == categoryId
        ).toList();
   }
+
+
+  Product findById(int id) {
+    return _items.firstWhere((product) => product.id == id);
+  }
+
   
 }
