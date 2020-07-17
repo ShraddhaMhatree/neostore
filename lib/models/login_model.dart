@@ -1,40 +1,40 @@
 import 'package:dio/dio.dart';
 
 
-class LoginRequest {
-  String email;
-  String password;
+// class LoginRequest {
+//   String email;
+//   String password;
 
-  LoginRequest({this.email, this.password});
+//   LoginRequest({this.email, this.password});
 
-  LoginRequest.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
-    password = json['password'];
-  }
+//   LoginRequest.fromJson(Map<String, dynamic> json) {
+//     email = json['email'];
+//     password = json['password'];
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
-    data['password'] = this.password;
-    return data;
-  }
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['email'] = this.email;
+//     data['password'] = this.password;
+//     return data;
+//   }
 
-  static Map<dynamic, dynamic> toMap(String email, String password) {
-    final data = Map<dynamic, dynamic>();
-    data['email'] = email;
-    data['password'] = password;
-    return data;
-  }
+//   static Map<dynamic, dynamic> toMap(String email, String password) {
+//     final data = Map<dynamic, dynamic>();
+//     data['email'] = email;
+//     data['password'] = password;
+//     return data;
+//   }
 
-  static FormData generateMap(){
-    FormData formData = FormData.fromMap({
-      "email": "sunny009@gmail.com",
-      "password": "qwerty",
-    });
+//   static FormData generateMap(){
+//     FormData formData = FormData.fromMap({
+//       "email": "sunny009@gmail.com",
+//       "password": "qwerty",
+//     });
 
-    return formData;
-  }
-}
+//     return formData;
+//   }
+// }
 
 class LoginResponse {
   int status;
@@ -73,7 +73,7 @@ class User {
   String profilePic;
   String countryId;
   String gender;
-  String phoneNo;
+  int phoneNo;
   String dob;
   bool isActive;
   String created;
@@ -135,29 +135,4 @@ class User {
     return data;
   }
 
-}
-
-class LoginError {
-  int status;
-  bool data;
-  String message;
-  String userMsg;
-
-  LoginError({this.status, this.data, this.message, this.userMsg});
-
-  LoginError.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    data = json['data'];
-    message = json['message'];
-    userMsg = json['user_msg'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['data'] = this.data;
-    data['message'] = this.message;
-    data['user_msg'] = this.userMsg;
-    return data;
-  }
 }

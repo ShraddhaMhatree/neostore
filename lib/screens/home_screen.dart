@@ -1,5 +1,6 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:neostore/helpers/NavigatorUtils.dart';
 import 'package:neostore/helpers/SizeConfig.dart';
 import 'package:neostore/screens/products_list.dart';
 import 'package:neostore/widgets/app_drawer.dart';
@@ -75,8 +76,9 @@ class CategoryGrid extends StatelessWidget {
       children: <Widget>[
         InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(ProductsList.route,
-                arguments: {'category_id': 1, 'category_name': 'Tables'});
+            // Navigator.of(context).pushNamed(ProductsList.route,
+            //     arguments: {'category_id': 1, 'category_name': 'Tables'});
+            NavigatorUtils.goToProductListPage(context, 1, 'Tables');
           },
           child: Container(
             color: Colors.red.shade600,
@@ -109,8 +111,9 @@ class CategoryGrid extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(ProductsList.route,
-                arguments: {'category_id': 2, 'category_name': 'Sofas'});
+            // Navigator.of(context).pushNamed(ProductsList.route,
+            //     arguments: {'category_id': 2, 'category_name': 'Sofas'});
+            NavigatorUtils.goToProductListPage(context, 2, 'Sofas');
           },
           child: Container(
             color: Colors.red.shade600,
@@ -143,8 +146,9 @@ class CategoryGrid extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(ProductsList.route,
-                arguments: {'category_id': 3, 'category_name': 'Chairs'});
+            // Navigator.of(context).pushNamed(ProductsList.route,
+            //     arguments: {'category_id': 3, 'category_name': 'Chairs'});
+            NavigatorUtils.goToProductListPage(context, 3, 'Chairs');
           },
           child: Container(
             color: Colors.red.shade600,
@@ -178,8 +182,9 @@ class CategoryGrid extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(ProductsList.route,
-                arguments: {'category_id': 4, 'category_name': 'Cupboards'});
+            // Navigator.of(context).pushNamed(ProductsList.route,
+            //     arguments: {'category_id': 4, 'category_name': 'Cupboards'});
+            NavigatorUtils.goToProductListPage(context, 4, 'Cupboards');
           },
           child: Container(
             color: Colors.red.shade600,

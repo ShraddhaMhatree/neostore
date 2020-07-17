@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:neostore/blocs/LoginBloc.dart';
 import 'package:neostore/helpers/HelperConfig.dart';
 import 'package:neostore/helpers/SizeConfig.dart';
+import 'package:neostore/interfaces/LoginCallInterface.dart';
+import 'package:neostore/models/login_model.dart';
 import 'package:neostore/providers/auth_provider.dart';
+import 'package:neostore/providers/product.dart';
 import 'package:neostore/screens/home_screen.dart';
 import 'package:neostore/screens/registration_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    implements LoginCallBackInterface {
   bool _isLoading = false;
   var helper = HelperConfig();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String _password;
   String _username;
+  LoginBloc presenter;
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-
+    presenter = LoginBloc(this);
     return Scaffold(
       backgroundColor: Colors.red,
       body: SingleChildScrollView(
@@ -205,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
         onPressed: () {
-          _saveForm();
+          _saveForm(context);
         },
       ),
     );
@@ -255,21 +262,61 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _saveForm() {
-    final isValid = _formKey.currentState.validate();
-    // if (!isValid) {
-    //   return;
-    // }
+  void _saveForm(BuildContext context) {
+    // final isValid = _formKey.currentState.validate();
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
     _formKey.currentState.save();
+    presenter.login(_username, _password);
     setState(() {
       _isLoading = true;
-      print(_username + '  ' + _password);
-      Provider.of<AuthProvider>(context, listen: false)
-          .login(_username, _password)
-          .then((value) {
-        _isLoading = false;
-        Navigator.of(context).pushReplacementNamed(HomeScreen.route);
-      });
     });
+  }
+
+  @override
+  void loginFailed(String msg) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Login Failed',
+          style: TextStyle(color: Colors.red),
+        ),
+        content: Text(
+          msg,
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Ok'),
+            onPressed: () {
+              Navigator.of(ctx).pop(false);
+            },
+          ),
+        ],
+      ),
+    );
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void loginSuccess(User user) {
+    createUserSession(user);
+    Navigator.of(context).popAndPushNamed(HomeScreen.route);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  void createUserSession(User user) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('accessToken', user.accessToken);
+    prefs.setString('name', user.firstName+' '+user.lastName);
+    prefs.setString('email', user.email);
+    prefs.setString('userId', user.id.toString());
+    prefs.setString('username', user.username);
+    
   }
 }

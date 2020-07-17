@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:neostore/helpers/SizeConfig.dart';
+import 'package:neostore/providers/cart_provider.dart';
 import 'package:neostore/providers/product.dart';
+import 'package:neostore/providers/product_provider.dart';
+import 'package:neostore/screens/my_cart_screen.dart';
+import 'package:provider/provider.dart';
 
 class AddToCartDialog extends StatelessWidget {
   final Product product;
+  final qtyController = TextEditingController();
 
   AddToCartDialog({this.product});
 
@@ -11,7 +16,7 @@ class AddToCartDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return SafeArea(
-          child: SingleChildScrollView(
+      child: SingleChildScrollView(
         child: Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
@@ -62,6 +67,7 @@ class AddToCartDialog extends StatelessWidget {
             width: SizeConfig.safeBlockHorizontal * 30,
             margin: EdgeInsets.only(top: 10),
             child: TextField(
+              controller: qtyController,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(15),
@@ -84,7 +90,12 @@ class AddToCartDialog extends StatelessWidget {
                 "SUBMIT",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<CartProdvider>(context, listen: false)
+                    .addToCart(product, int.parse(qtyController.text))
+                    .then((value) =>
+                        Navigator.of(context).popAndPushNamed(MyCart.route));
+              },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
               ),

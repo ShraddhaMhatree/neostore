@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:neostore/helpers/NavigatorUtils.dart';
+import 'package:neostore/helpers/PrefSessionManagement.dart';
 import 'package:neostore/helpers/SizeConfig.dart';
+import 'package:neostore/screens/login_screen.dart';
 import 'package:neostore/screens/products_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -17,12 +21,40 @@ class AppDrawer extends StatelessWidget {
           )),
     );
   }
+
+ 
 }
 
-class SideNavAccountDetails extends StatelessWidget {
+class SideNavAccountDetails extends StatefulWidget {
   const SideNavAccountDetails({
     Key key,
   }) : super(key: key);
+
+  @override
+  _SideNavAccountDetailsState createState() => _SideNavAccountDetailsState();
+}
+
+class _SideNavAccountDetailsState extends State<SideNavAccountDetails> {
+  String name = '';
+  String email ='';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchAccountDetails();
+  }
+
+  fetchAccountDetails()async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     setState(() {
+      name = prefs.getString('name');
+     email = prefs.getString('email');
+     
+     });
+     
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +81,11 @@ class SideNavAccountDetails extends StatelessWidget {
               height: SizeConfig.safeBlockVertical * 2,
             ),
             Text(
-              'Shraddha Mhatre',
+              name,
               style: Theme.of(context).textTheme.headline1,
             ),
             Text(
-              'abc@gmail.com',
+              email,
               style: Theme.of(context).textTheme.headline6,
             ),
             Expanded(
@@ -75,7 +107,15 @@ class SideNavMenuList extends StatelessWidget {
   const SideNavMenuList({
     Key key,
   }) : super(key: key);
-
+  
+  Future<void> logut() async{
+   
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+   prefs.clear();
+   
+  
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -209,11 +249,16 @@ class SideNavMenuList extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6,
             ),
             onTap: () {
-              Navigator.of(context).popAndPushNamed('/');
+
+            logut().then((_) => 
+            NavigatorUtils.goToLoginPage(context));
+            //  Navigator.of(context).pushAndRemoveUntil(
+            //    MaterialPageRoute(builder: (BuildContext context) => LoginScreen()), (Route<dynamic> route) => false));
             },
           ),
         ],
       ),
     );
   }
+
 }

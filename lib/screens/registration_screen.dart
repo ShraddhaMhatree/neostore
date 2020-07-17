@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:neostore/blocs/RegisterBloc.dart';
 import 'package:neostore/helpers/SizeConfig.dart';
+import 'package:neostore/interfaces/RegisterlInterface.dart';
+import 'package:neostore/models/login_model.dart';
 import 'package:neostore/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +12,8 @@ class RegistrationScreen extends StatefulWidget {
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
+class _RegistrationScreenState extends State<RegistrationScreen>
+    implements RegisterInterface {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -19,10 +23,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   var gender = '';
   var _isChecked = false;
   var isLoading = false;
+  RegisterBloc presenter;
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    presenter = RegisterBloc(this);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -37,10 +43,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: SafeArea(
           child: Container(
             child: Column(
-              
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(top: SizeConfig.safeBlockVertical * 5),
+                  margin:
+                      EdgeInsets.only(top: SizeConfig.safeBlockVertical * 5),
                   child: Text(
                     "NeoSTORE",
                     style: TextStyle(color: Colors.white, fontSize: 40),
@@ -250,7 +256,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     setState(() {
       isLoading = true;
     });
-    await Provider.of<AuthProvider>(context, listen: false).register(
+    presenter.register(
         _firstNameController.text,
         _lastNameController.text,
         _emailController.text,
@@ -258,9 +264,51 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _confirmPasswordController.text,
         gender,
         int.parse(_phoneNumberController.text));
+    // await Provider.of<AuthProvider>(context, listen: false).register(
+    //     _firstNameController.text,
+    //     _lastNameController.text,
+    //     _emailController.text,
+    //     _passwordController.text,
+    //     _confirmPasswordController.text,
+    //     gender,
+    //     int.parse(_phoneNumberController.text));
 
+    
+  }
+
+  @override
+  void registerFailed(String msg) {
+     showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(
+          'Registration Failed',
+          style: TextStyle(color: Colors.red),
+        ),
+        content: Text(
+          msg,
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Ok'),
+            onPressed: () {
+              Navigator.of(ctx).pop(false);
+            },
+          ),
+        ],
+      ),
+    );
     setState(() {
       isLoading = false;
     });
+    print(msg);
+  }
+
+  @override
+  void registerSuccess(User user) {
+    setState(() {
+      isLoading = false;
+    });
+    print(user.firstName);
   }
 }

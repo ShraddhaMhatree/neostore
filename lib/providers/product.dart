@@ -12,6 +12,8 @@ class Product{
   final String created;
   final String modified;
   final String productImages;
+  final String subTotal;
+  final String productImage;
 
   Product({
     @required this.id,
@@ -24,7 +26,9 @@ class Product{
     @required this.viewCount,
     @required this.created,
     @required this.modified,
-    @required this.productImages
+    @required this.productImages,
+    this.subTotal,
+    this.productImage
   });
 
   
