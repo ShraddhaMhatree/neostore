@@ -11,7 +11,11 @@ class NavigatorUtils {
   }
 
   static goToProductListPage(BuildContext context,int categoryId, String categoryName){
-     Navigator.of(context).pushNamed(ProductsList.route,
-                arguments: {'category_id': categoryId, 'category_name': categoryName});
+    //  Navigator.of(context).pushNamed(ProductsList.route,
+    //             arguments: {'category_id': categoryId, 'category_name': categoryName});
+     Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => ProductsList(productCategoryId: categoryId, productCategoryName: categoryName)),
+  );
   }
 }

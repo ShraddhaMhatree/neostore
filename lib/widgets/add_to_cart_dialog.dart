@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neostore/helpers/SizeConfig.dart';
 import 'package:neostore/providers/cart_provider.dart';
-import 'package:neostore/providers/product.dart';
+import 'package:neostore/models/product_model.dart';
 import 'package:neostore/providers/product_provider.dart';
 import 'package:neostore/screens/my_cart_screen.dart';
 import 'package:provider/provider.dart';

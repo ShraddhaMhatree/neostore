@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:neostore/providers/cart.dart';
-import 'package:neostore/providers/product.dart';
+import 'package:neostore/models/product_model.dart';
 import 'package:neostore/screens/my_cart_screen.dart';
 import 'package:provider/provider.dart';
 

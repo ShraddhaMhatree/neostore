@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:neostore/providers/product.dart';
+import 'package:neostore/models/product_model.dart';
 
 class Cart {
   final String id;

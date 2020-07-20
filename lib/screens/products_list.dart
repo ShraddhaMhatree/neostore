@@ -1,22 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:neostore/blocs/ProductsBloc.dart';
 import 'package:neostore/helpers/SizeConfig.dart';
-import 'package:neostore/providers/product.dart';
+import 'package:neostore/models/product_model.dart';
+import 'package:neostore/networking/Response.dart';
 import 'package:neostore/providers/product_provider.dart';
 import 'package:neostore/screens/product_description_screen.dart';
 import 'package:provider/provider.dart';
 
-class ProductsList extends StatelessWidget {
+class ProductsList extends StatefulWidget {
   static final route = '/products-list';
+   final int productCategoryId;
+   final String productCategoryName;
 
+   ProductsList({
+     @required this.productCategoryId,
+     @required this.productCategoryName
+   });
+
+  @override
+  _ProductsListState createState() => _ProductsListState();
+}
+
+class _ProductsListState extends State<ProductsList> {
+  ProductsBloc _bloc;
+
+   @override
+  void initState() {
+    super.initState();
+    _bloc = ProductsBloc(widget.productCategoryId, context);
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final productData =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    final productCategoryId = productData['category_id'];
-    final productCategoryName = productData['category_name'];
-    final productsList = Provider.of<ProductsProvider>(context).getProductsByCategory(productCategoryId);
+    // final productData =
+    //     ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    // final productCategoryId = productData['category_id'];
+    // final productCategoryName = productData['category_name'];
+    // final productsList = Provider.of<ProductsProvider>(context).getProductsByCategory(productCategoryId);
+    final productData = Provider.of<ProductsProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -24,7 +46,7 @@ class ProductsList extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          productCategoryName,
+          widget.productCategoryName,
           style: Theme.of(context).textTheme.headline1,
         ),
         centerTitle: true,
@@ -36,17 +58,56 @@ class ProductsList extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: ListView.separated(
+        child: RefreshIndicator(
+          onRefresh: ()=> _bloc.fetchProducts(widget.productCategoryId,context),
+          child: StreamBuilder(
+            stream: _bloc.productStream,
+            builder: (context, AsyncSnapshot<Response<ProductResponse>> snapshot){
+              if(snapshot.hasData){
+                switch (snapshot.data.status) {
+                case Status.LOADING:
+                  return Center(
+                    child: Text(snapshot.data.message));
+                  break;
+                case Status.COMPLETED:
+                  // productData.setItems(snapshot.data.data.data);
+                  return _listviewBuilder(productData.items);
+                  break;
+                case Status.ERROR:
+                  return Center(
+                    child: Text(snapshot.data.message));
+                  break;
+              }
+              }
+              return Container();
+            },)
+          , ),
+      ),
+      // body: SafeArea(
+      //   child: ListView.separated(
+      //       padding: const EdgeInsets.symmetric(horizontal: 15 , vertical: 10),
+      //       separatorBuilder: (BuildContext context, int index) => Divider(
+      //             height: 1,
+      //             color: Colors.grey.shade800,
+      //           ),
+      //       itemCount: productsList.length,
+      //       itemBuilder: (ctx, i) => _productItem(productsList, i, context, widget.productCategoryName)
+      //       ),
+      // ),
+    );
+  }
+
+  Widget _listviewBuilder(List<Product> productsList){
+    // List<Product> productsList = response.data;
+    return ListView.separated(
             padding: const EdgeInsets.symmetric(horizontal: 15 , vertical: 10),
             separatorBuilder: (BuildContext context, int index) => Divider(
                   height: 1,
                   color: Colors.grey.shade800,
                 ),
             itemCount: productsList.length,
-            itemBuilder: (ctx, i) => _productItem(productsList, i, context, productCategoryName)
-            ),
-      ),
-    );
+            itemBuilder: (ctx, i) => _productItem(productsList, i, context, widget.productCategoryName)
+            );
   }
 
   Widget _productItem(List<Product> data, int index, BuildContext context, String categoryName) {

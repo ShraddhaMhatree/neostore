@@ -5,7 +5,7 @@ import 'package:neostore/helpers/SizeConfig.dart';
 import 'package:neostore/interfaces/LoginCallInterface.dart';
 import 'package:neostore/models/login_model.dart';
 import 'package:neostore/providers/auth_provider.dart';
-import 'package:neostore/providers/product.dart';
+import 'package:neostore/models/product_model.dart';
 import 'package:neostore/screens/home_screen.dart';
 import 'package:neostore/screens/registration_screen.dart';
 import 'package:provider/provider.dart';

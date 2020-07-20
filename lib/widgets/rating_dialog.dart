@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:neostore/helpers/SizeConfig.dart';
-import 'package:neostore/providers/product.dart';
+import 'package:neostore/models/product_model.dart';
 
 class RatingDialog extends StatelessWidget {
   final Product product;
